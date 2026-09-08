@@ -65,7 +65,7 @@ def colored_button(*args, **kwargs):
 load_dotenv()
 
 # ================== تنظیمات ==================
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "توکن-خودت-رو-اینجا-بذار")
+BOT_TOKEN = "8960089468:AAHyV9q-e621tR5Nl7LkemPXZhlqHXnPqMg"
 ADMIN_IDS = [8904869158, 8196150649,]  # آیدی عددی خود را اینجا قرار دهید
 START_DIAMONDS = 25000
 TAX_RATE = 0.10
