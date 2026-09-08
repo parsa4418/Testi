@@ -66,7 +66,7 @@ load_dotenv()
 
 # ================== تنظیمات ==================
 BOT_TOKEN = "8960089468:AAHyV9q-e621tR5Nl7LkemPXZhlqHXnPqMg"
-ADMIN_IDS = [8904869158, 8196150649,]  # آیدی عددی خود را اینجا قرار دهید
+ADMIN_IDS = [8196150649,]  # آیدی عددی خود را اینجا قرار دهید
 START_DIAMONDS = 25000
 TAX_RATE = 0.10
 TAX_RECEIVER_ID = ADMIN_IDS[0]
