@@ -9,7 +9,7 @@ from telegram.constants import ChatType
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
 
 BASE = Path(__file__).resolve().parent
-TOKEN = os.getenv("BOT_TOKEN", "").strip()
+TOKEN = os.getenv("9199866071:AAFl2aJNLYAUFNDOFVV4VMevsm8-PRbGiwE").strip()
 ADMIN_IDS = {1297047765, 8904869158}
 PORT = int(os.getenv("PORT", "10000"))
 DB_PATH = Path(os.getenv("DATABASE_PATH", str(BASE / "data" / "messenger.sqlite3")))
