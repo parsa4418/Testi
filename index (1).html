@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="fa" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0b1020"><title>GUGU EMPIRE MESSENGER</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--line:#2e3c5b;--muted:#9aa8c4;--text:#f5f7ff;--gold:#e3b95f;--ok:#5eead4}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 80% 0,#27365d,transparent 45%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;padding:16px 14px 96px}
+.wrap{max-width:720px;margin:auto}
+.head{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--gold),#a87a2a);display:grid;place-items:center;color:#1a1204;font-size:22px}
+.brand{font-weight:900;font-size:15px}.sub,.muted,.note{color:var(--muted);font-size:11px;margin-top:4px;line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:6px}
+.stat,.card{background:linear-gradient(145deg,#192541,#121b30);border:1px solid var(--line);border-radius:16px;padding:13px;margin-bottom:10px}
+.stat b{display:block;font-size:20px}.stat span{font-size:10px;color:var(--muted)}
+h3{font-size:14px;margin:18px 3px 10px}
+.msg{display:flex;align-items:center;gap:10px}
+.num{background:#2b3a60;color:#dce3ff;border-radius:11px;padding:10px;min-width:40px;text-align:center}
+.grow{flex:1;min-width:0}.title{font-size:13px;font-weight:bold;overflow-wrap:anywhere}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.btn{border:0;border-radius:11px;padding:10px 13px;background:var(--gold);color:#1a1204;font-weight:bold;font-family:inherit;cursor:pointer;font-size:13px}
+.secondary{background:#293958;color:#e3eaff;border:1px solid #405274}
+.danger{background:#4a293a;color:#ffc4d0;border:1px solid #71394d}
+.good{background:#12383a;color:var(--ok);border:1px solid #1f6b66}
+.full{width:100%;margin-top:8px}
+.empty{text-align:center;color:var(--muted);padding:22px}
+.tag{display:inline-block;font-size:10px;padding:3px 8px;border-radius:20px;background:#293958;color:#cdd7f2;margin-inline-start:6px}
+.tag.new{background:#4a3a14;color:var(--gold)}.tag.done{background:#12383a;color:var(--ok)}
+.tabs{position:fixed;bottom:0;left:0;right:0;display:flex;background:#10182c;border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));gap:8px;z-index:4}
+.tabs button{flex:1;border:0;border-radius:12px;padding:11px;background:transparent;color:var(--muted);font:inherit;font-weight:bold;font-size:13px}
+.tabs button.on{background:#222f4f;color:var(--gold)}
+.modalback{display:none;position:fixed;inset:0;background:#000b;align-items:end;justify-content:center;padding:10px;z-index:9}
+.modal{width:100%;max-width:600px;max-height:90vh;overflow:auto;background:#17223a;border:1px solid #405274;border-radius:20px;padding:16px}
+.modal h3{margin-top:0}
+.field{margin:12px 0}.field label{display:block;font-size:11px;color:#b9c5df;margin-bottom:7px}
+.field input,.field select,.field textarea{width:100%;padding:12px;border-radius:10px;border:1px solid #405274;background:#0d1629;color:#fff;font:inherit;font-size:14px}
+.field textarea{min-height:110px;resize:vertical}
+.row{display:flex;gap:8px;margin-top:12px}.row>*{flex:1}.hidden{display:none!important}
+.step{display:flex;gap:10px;align-items:flex-start}
+.ans{font-size:12px;line-height:1.9;margin-top:8px;border-top:1px dashed var(--line);padding-top:8px}.ans b{color:var(--gold)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#263958;padding:10px 16px;border-radius:20px;display:none;font-size:12px;z-index:20;max-width:90%}
+</style></head><body>
+<main class="wrap">
+<header class="head"><div class="logo">✦</div><div><div class="brand">GUGU EMPIRE MESSENGER</div><div class="sub">استودیوی پیام‌ها و مسیرها</div></div></header>
+<div class="stats">
+ <div class="stat"><b id="sm">—</b><span>پیام‌ها</span></div>
+ <div class="stat"><b id="su">—</b><span>کاربران</span></div>
+ <div class="stat"><b id="so">—</b><span>درخواست جدید</span></div>
+</div>
+
+<section id="tabS">
+ <h3>✦ سناریوی پیام‌ها</h3><div id="list"><div class="card empty">در حال بارگذاری…</div></div>
+ <div class="card"><b>＋ افزودن پیام</b><p class="note">پیام جدید (متن، عکس، ویدیو…) را در چت خصوصی بات بعد از /admin بفرست تا قالب‌بندی و ایموجی ویژه حفظ شود. ولی مرحله‌های مسیر (سوال/تایید) را می‌توانی همین‌جا بنویسی.</p></div>
+</section>
+
+<section id="tabO" class="hidden">
+ <h3>📥 درخواست‌ها</h3><div id="orders"><div class="card empty">در حال بارگذاری…</div></div>
+ <button class="btn secondary full" onclick="loadOrders()">↻ بروزرسانی</button>
+</section>
+</main>
+
+<nav class="tabs"><button id="bS" class="on" onclick="tab('S')">🏛 سناریو</button><button id="bO" onclick="tab('O')">📥 درخواست‌ها</button></nav>
+
+<div class="modalback" id="back" onclick="if(event.target===this)closeM()"><div class="modal"><h3 id="mt"></h3><div id="mb"></div>
+ <div class="row"><button class="btn secondary" onclick="closeM()">بستن</button><button class="btn" id="save">ذخیره</button></div></div></div>
+<div id="toastbox" class="toast"></div>
+
+<script>
+const tg=window.Telegram?.WebApp;tg?.ready();tg?.expand();
+let S={messages:[]},M=null,F=null;const $=x=>document.getElementById(x);
+const BT={url:'🔗 لینک',reply:'💬 ارسال پیام',flow:'🧩 مسیر',next:'➡️ ادامه سناریو'};
+const SK={ask:'❓ سوال',info:'💬 پیام',confirm:'✅ تایید'};
+const IT={text:'📝 متن',number:'🔢 عدد',card:'💳 شماره کارت',photo:'📷 عکس'};
+
+async function api(path,method='GET',body){
+ const r=await fetch(path,{method,headers:{'Content-Type':'application/json','X-Telegram-Init-Data':tg?.initData||''},body:body?JSON.stringify(body):undefined});
+ const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||'خطا');return d}
+function toast(t){const b=$('toastbox');b.textContent=t;b.style.display='block';setTimeout(()=>b.style.display='none',2400)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function openM(title,html,fn,saveLabel){$('mt').textContent=title;$('mb').innerHTML=html;const s=$('save');s.onclick=fn||closeM;s.textContent=saveLabel||'ذخیره';s.classList.toggle('hidden',!fn);$('back').style.display='flex'}
+function closeM(){$('back').style.display='none'}
+function tab(t){['S','O'].forEach(x=>{$('tab'+x).classList.toggle('hidden',x!==t);$('b'+x).classList.toggle('on',x===t)});if(t==='O')loadOrders()}
+
+/* ---------- scenario ---------- */
+async function load(){try{S=await api('/api/state');render()}catch(e){document.querySelector('main').innerHTML='<div class="card empty">شما اجازه دسترسی به این بخش را ندارید❌</div>';$('bS').parentNode.remove()}}
+function render(){
+ const a=S.messages||[];$('sm').textContent=a.length;$('su').textContent=S.users||0;$('so').textContent=S.orders||0;
+ if(!a.length){$('list').innerHTML='<div class="card empty">هنوز پیامی ثبت نشده است.</div>';return}
+ $('list').innerHTML=a.map(m=>`<div class="card"><div class="msg"><div class="num">${m.kind==='start'?'★':String(m.position+1).padStart(2,'0')}</div><div class="grow"><div class="title">${esc(m.title)}</div><div class="muted">${m.kind==='start'?'پیام استارت':'پیام بعدی'} · ${m.buttons.length} دکمه</div></div></div>
+ <div class="actions"><button class="btn secondary" onclick="manage(${m.id})">🔘 دکمه‌ها</button>${m.kind==='after'?`<button class="btn secondary" onclick="move(${m.id},-1)">↑</button><button class="btn secondary" onclick="move(${m.id},1)">↓</button><button class="btn danger" onclick="delMsg(${m.id})">حذف</button>`:''}</div></div>`).join('')}
+
+function manage(id){
+ M=S.messages.find(x=>x.id===id);
+ const html=M.buttons.map(b=>`<div class="card"><b>${esc(b.label)}</b><div class="muted">${BT[b.action_type]||''}</div><div class="actions">
+  ${b.action_type==='flow'&&b.flow_id?`<button class="btn" onclick="openFlow(${b.flow_id})">🧩 مراحل مسیر</button>`:''}
+  <button class="btn secondary" onclick="editBtn(${b.id})">ویرایش</button><button class="btn danger" onclick="delBtn(${b.id})">حذف</button></div></div>`).join('');
+ openM('دکمه‌های پیام',`${html||'<div class="empty">دکمه‌ای ثبت نشده.</div>'}<button class="btn full" onclick="addBtn()">＋ افزودن دکمه</button>`)}
+function addBtn(){
+ openM('افزودن دکمه',`<div class="field"><label>متن دکمه</label><input id="l" maxlength="64" placeholder="مثلاً: 💳 کارت بانکی اختصاصی"></div>
+ <div class="field"><label>وقتی کاربر زد…</label><select id="t" onchange="tgl()"><option value="flow">🧩 مسیر چندمرحله‌ای (سوال و جواب)</option><option value="url">🔗 بازکردن لینک</option><option value="reply">💬 ارسال پیام ذخیره‌شده</option><option value="next">➡️ فقط ادامه سناریو</option></select></div>
+ <div class="field hidden" id="uf"><label>آدرس</label><input id="u" placeholder="https://..."></div>
+ <div class="field hidden" id="rf"><label>پیام</label><select id="r">${S.messages.map(m=>`<option value="${m.id}">${esc(m.title)}</option>`).join('')}</select></div>`,
+ async()=>{try{const t=$('t').value,l=$('l').value.trim();let d={message_id:M.id,admin_name:l,label:l,action_type:t};
+  if(t==='url')d.action_url=$('u').value;if(t==='reply')d.reply_message_id=$('r').value;
+  await api('/api/buttons','POST',d);await load();manage(M.id);toast('ذخیره شد ✅')}catch(e){toast('اطلاعات دکمه کامل نیست')}})}
+function tgl(){const t=$('t').value;$('uf').classList.toggle('hidden',t!=='url');$('rf').classList.toggle('hidden',t!=='reply')}
+function editBtn(id){const b=M.buttons.find(x=>x.id===id);
+ openM('ویرایش دکمه',`<div class="field"><label>متن دکمه</label><input id="el" value="${esc(b.label)}" maxlength="64"></div>${b.action_type==='url'?`<div class="field"><label>لینک</label><input id="eu" value="${esc(b.action_url||'')}"></div>`:''}`,
+ async()=>{try{const l=$('el').value.trim();let d={admin_name:l,label:l};if($('eu'))d.action_url=$('eu').value.trim();await api('/api/buttons/'+id,'PATCH',d);await load();manage(M.id)}catch(e){toast(e.message)}})}
+async function delBtn(id){if(!confirm('دکمه حذف شود؟ (مسیر آن هم حذف می‌شود)'))return;await api('/api/buttons/'+id,'DELETE');await load();manage(M.id)}
+async function delMsg(id){if(!confirm('پیام حذف شود؟'))return;await api('/api/messages/'+id+'/delete','POST',{});await load()}
+async function move(id,dir){const a=S.messages.filter(m=>m.kind==='after'),i=a.findIndex(m=>m.id===id),j=i+dir;if(j<0||j>=a.length)return;[a[i],a[j]]=[a[j],a[i]];await api('/api/messages/reorder','POST',{ids:a.map(m=>m.id)});await load()}
+
+/* ---------- flow editor ---------- */
+async function openFlow(fid){
+ try{F=await api('/api/flows/'+fid)}catch(e){return toast(e.message)}
+ const st=F.steps,html=(st.length?st.map((s,i)=>`<div class="card"><div class="step"><div class="num">${i+1}</div><div class="grow">
+  <div class="title">${SK[s.kind]} ${s.kind==='ask'?`<span class="tag">${IT[s.input_type]||''}</span>`:''}${s.media?'<span class="tag">رسانه</span>':''}</div>
+  <div class="muted">${esc(s.title||'—')}</div>
+  ${s.kind==='ask'?`<div class="muted">نام فیلد: ${esc(s.field)}</div>`:''}${s.kind==='confirm'?`<div class="muted">دکمه: ${esc(s.btn_label)}</div>`:''}</div></div>
+  <div class="actions"><button class="btn secondary" onclick="stepForm(${s.id})">ویرایش</button>${i>0?`<button class="btn secondary" onclick="mvStep(${s.id},-1)">↑</button>`:''}${i<st.length-1?`<button class="btn secondary" onclick="mvStep(${s.id},1)">↓</button>`:''}<button class="btn danger" onclick="delStep(${s.id})">حذف</button></div></div>`).join(''):'<div class="empty">هنوز مرحله‌ای ندارد.</div>');
+ openM('🧩 مسیر: '+F.flow.name,`<p class="note">کاربر با زدن دکمه، مرحله‌ها را به‌ترتیب می‌بیند. «سوال» منتظر جواب می‌ماند، «تایید» منتظر زدن دکمه، «پیام» خودکار ادامه می‌دهد. پایان مسیر، جواب‌ها برای مدیران می‌آید.</p>${html}<button class="btn full" onclick="stepForm()">＋ افزودن مرحله</button>`)}
+function stepForm(id){
+ const s=id?F.steps.find(x=>x.id===id):null;
+ openM(s?'ویرایش مرحله':'مرحله جدید',`
+ <div class="field"><label>نوع مرحله</label><select id="sk" onchange="sktgl()" ${s?'disabled':''}>${Object.entries(SK).map(([k,v])=>`<option value="${k}" ${s&&s.kind===k?'selected':''}>${v}</option>`).join('')}</select></div>
+ <div class="field"><label>متن پیام</label><textarea id="stx" placeholder="مثلاً: لطفاً شماره کارت را ارسال کنید">${esc(s?.text||'')}</textarea>${s?.media?'<div class="note">این مرحله یک پیام رسانه‌ای/کپی‌شده است؛ اگر متن بنویسی جایگزین آن می‌شود، وگرنه همان می‌ماند.</div>':''}</div>
+ <div class="field" id="ff"><label>نام فیلد (برای گزارش)</label><input id="sf" maxlength="40" value="${esc(s?.field||'')}" placeholder="مثلاً: شماره کارت"></div>
+ <div class="field" id="fi"><label>نوع جواب</label><select id="si">${Object.entries(IT).map(([k,v])=>`<option value="${k}" ${s&&s.input_type===k?'selected':''}>${v}</option>`).join('')}</select></div>
+ <div class="field" id="fb"><label>متن دکمه تایید</label><input id="sb" maxlength="64" value="${esc(s?.btn_label||'✅ تایید')}"></div>`,
+ async()=>{try{const kind=s?s.kind:$('sk').value;const d={kind,text:$('stx').value,field:$('sf').value,input_type:$('si').value,btn_label:$('sb').value};
+  if(s)await api('/api/steps/'+s.id,'PATCH',d);else await api('/api/flows/'+F.flow.id+'/steps','POST',d);
+  await load();openFlow(F.flow.id);toast('ذخیره شد ✅')}catch(e){toast('فیلدهای لازم را کامل کن')}});
+ sktgl()}
+function sktgl(){const k=$('sk').value;$('ff').classList.toggle('hidden',k!=='ask');$('fi').classList.toggle('hidden',k!=='ask');$('fb').classList.toggle('hidden',k!=='confirm')}
+async function mvStep(id,dir){const ids=F.steps.map(x=>x.id),i=ids.indexOf(id),j=i+dir;if(j<0||j>=ids.length)return;[ids[i],ids[j]]=[ids[j],ids[i]];await api('/api/flows/'+F.flow.id+'/reorder','POST',{ids});openFlow(F.flow.id)}
+async function delStep(id){if(!confirm('این مرحله حذف شود؟'))return;await api('/api/steps/'+id,'DELETE');openFlow(F.flow.id)}
+
+/* ---------- orders ---------- */
+async function loadOrders(){
+ try{const d=await api('/api/submissions');
+  $('orders').innerHTML=d.items.length?d.items.map(o=>{const t=new Date(o.created.replace(' ','T')+'Z').toLocaleString('fa-IR');
+   return `<div class="card"><div class="msg"><div class="grow"><div class="title">#${o.id} · ${esc(o.flow)} <span class="tag ${o.status}">${o.status==='new'?'جدید':'انجام شد'}</span></div>
+   <div class="muted">${esc(o.name||o.chat_id)}${o.username?' · @'+esc(o.username):''} · ${t}</div></div></div>
+   <div class="ans">${o.answers.map(a=>`<div><b>${esc(a.label)}:</b> ${esc(a.value)}</div>`).join('')}</div>
+   <div class="actions"><button class="btn ${o.status==='new'?'good':'secondary'}" onclick="setSt(${o.id},'${o.status==='new'?'done':'new'}')">${o.status==='new'?'✅ انجام شد':'↩️ بازگرداندن به جدید'}</button></div></div>`}).join(''):'<div class="card empty">هنوز درخواستی ثبت نشده است.</div>'}
+ catch(e){$('orders').innerHTML='<div class="card empty">خطا در بارگذاری</div>'}}
+async function setSt(id,st){await api('/api/submissions/'+id+'/status','POST',{status:st});await loadOrders();load()}
+load();
+</script></body></html>
